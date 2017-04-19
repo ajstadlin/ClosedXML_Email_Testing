@@ -16,6 +16,8 @@ namespace ClosedXML_Email_Test01
   {
     static void Main(string[] args)
     {
+      // This is a non-production testing application.  
+      // Variable values need to be changed appropriately for your email account and SMTP Server.      
       Console.WriteLine("Test sending ClosedXML XLSX file as an email attachment ...");
 
       // Create the XLSX workbook file
