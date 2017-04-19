@@ -35,46 +35,44 @@ namespace ClosedXML_Email_Test01
 
     private static void CreateXlBook(string bookFilename)
     {
-      XLWorkbook myXlBook = null;
-      IXLWorksheet myXlSheet = null;
-      try
+      // Initialize a new Workbook
+      using (XLWorkbook myXlBook = new XLWorkbook())
       {
-        // Initialize a new Workbook
-        myXlBook = new XLWorkbook();
-
-        // Check to see if a specific worksheet exists, if not, Add it.
         string mySheetname = "VENUS";
-        if (myXlBook.Worksheets.Where(w => w.Name == mySheetname).Count() == 0)
+        using (IXLWorksheet myXlSheet = myXlBook.Worksheets.Add(mySheetname))
         {
-          myXlSheet = myXlBook.Worksheets.Add(mySheetname);
-          Console.WriteLine(" + worksheet created = " + mySheetname);
-        }
+          try
+          {
+            // Check to see if a specific worksheet exists
+            if (myXlBook.Worksheets.Where(w => w.Name == mySheetname).Count() == 1)
+            {
+              Console.WriteLine(" + worksheet created = " + mySheetname);
+            }
 
-        // Add worksheet content ...
-        myXlSheet.Cell(1, 1).Value = "Hello World!";
+            // Add worksheet content ...
+            myXlSheet.Cell(1, 1).Value = "Hello World!";
 
-        // Save the Workbook
-        if (File.Exists(bookFilename))
-        {
-          Console.Write(" - deleting old file ... ");
-          File.Delete(bookFilename);
-          Console.WriteLine(" old file deleted.");
-        }
-        Console.Write(" * Saving XL Workbook -> " + bookFilename + " ... ");
-        myXlBook.SaveAs(bookFilename);
-        Console.WriteLine("Workbook Saved!");
-      }
-      catch (Exception xlException)
-      {
-        Console.WriteLine("XL Creation Error -> " + xlException.Message);
-        if (xlException.InnerException != null)
-        {
-          Console.WriteLine(" --> " + xlException.InnerException.Message);
-        }
-      }
-      // clean up
-      myXlSheet.Dispose();
-      myXlBook.Dispose();
+            // Save the Workbook
+            if (File.Exists(bookFilename))
+            {
+              Console.Write(" - deleting old file ... ");
+              File.Delete(bookFilename);
+              Console.WriteLine(" old file deleted.");
+            }
+            Console.Write(" * Saving XL Workbook -> " + bookFilename + " ... ");
+            myXlBook.SaveAs(bookFilename);
+            Console.WriteLine("Workbook Saved!");
+          }
+          catch (Exception xlException)
+          {
+            Console.WriteLine("XLSX Construction or Save Error -> " + xlException.Message);
+            if (xlException.InnerException != null)
+            {
+              Console.WriteLine(" --> " + xlException.InnerException.Message);
+            }
+          }
+        } // dispose using IXLWorksheet myXlSheet
+      } // dispose using XLWorkbook myXlBook
     }
 
 
