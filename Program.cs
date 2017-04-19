@@ -154,14 +154,6 @@ namespace ClosedXML_Email_Test01
       }
 
       // Clean up
-      if (mailToAddress != null)
-      {
-        mailToAddress = null;
-      }
-      if (mailFromAddress != null)
-      {
-        mailFromAddress = null;
-      }
       if (mailMess != null)
       {
         mailMess.Dispose();
